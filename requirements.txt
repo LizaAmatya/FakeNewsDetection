@@ -1,0 +1,5 @@
+numpy
+tensorflow
+pandas
+tensorflow-text
+tf-models-official
