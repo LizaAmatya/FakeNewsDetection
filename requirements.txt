@@ -1,5 +1,7 @@
-numpy
+# numpy
+tensorflow_hub
 tensorflow
 pandas
 tensorflow-text
-tf-models-official
+# tf-models-official
+transformers
