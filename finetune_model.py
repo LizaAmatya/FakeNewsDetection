@@ -1,9 +1,11 @@
 import tensorflow_hub as hub
 import tensorflow_text
 import tensorflow as tf
-from transformers import BertTokenizer, TFBertForSequenceClassification
+from transformers import BertTokenizer, TFBertForSequenceClassification, DistilBertTokenizer, TFDistilBertForSequenceClassification
 from common import BASE_DIR, train_dataset, val_dataset, num_epochs, batch_size
 import os
+from tensorflow.keras import mixed_precision
+
 
 """
 BERT Preprocess Model
@@ -18,6 +20,7 @@ bert_encoders = {
     'experts_wiki_books':
         'https://tfhub.dev/google/experts/bert/wiki_books/2',
 }
+mixed_precision.set_global_policy('mixed_float16')
 
 bert_preprocess = {
     'experts_wiki_books':
@@ -27,10 +30,10 @@ bert_preprocess = {
 }
 
 # model_name = 'experts_wiki_books'
-model_name = 'bert-base-uncased'
+model_name = 'distilbert-base-uncased'
 
-tokenizer = BertTokenizer.from_pretrained(model_name)
-model = TFBertForSequenceClassification.from_pretrained(model_name)
+tokenizer = DistilBertTokenizer.from_pretrained(model_name)
+model = TFDistilBertForSequenceClassification.from_pretrained(model_name)
 
 # print(model)
 # bert_preprocess_model = hub.KerasLayer(preprocess)
@@ -45,8 +48,8 @@ class BERT_classifier(object):
     
     def __init__(self, *args, **kwargs):
         # Using Expert Preprocessed BERT model
-        self.encoder = bert_encoders['bert-base-uncased']
-        self.preprocess = bert_preprocess['bert-base-uncased']
+        self.encoder = bert_encoders['distilbert-base-uncased']
+        self.preprocess = bert_preprocess['distilbert-base-uncased']
         
     def build_classifier_model(self):
         text_input = tf.keras.layers.Input(shape=(), dtype=tf.string, name='text')
