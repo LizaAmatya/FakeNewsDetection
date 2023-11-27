@@ -20,7 +20,7 @@ bert_encoders = {
     'experts_wiki_books':
         'https://tfhub.dev/google/experts/bert/wiki_books/2',
 }
-mixed_precision.set_global_policy('mixed_float16')
+# mixed_precision.set_global_policy('mixed_float16')
 
 bert_preprocess = {
     'experts_wiki_books':
@@ -74,4 +74,4 @@ history = classifier_model.fit(
 )
 
 # Save the trained model
-classifier_model.save_pretrained(os.path.join(BASE_DIR, 'trained_model'))
+classifier_model.save(os.path.join(BASE_DIR, 'trained_model'))
